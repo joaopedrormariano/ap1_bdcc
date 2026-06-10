@@ -8,11 +8,11 @@ def healthcheck(_request):
     return JsonResponse({'status': 'ok'})
 
 urlpatterns = [
-    path('', healthcheck),  # Health check do EB retorna 200
+    path('', healthcheck),
     path('admin/', admin.site.urls),
-    path('api/', include('produtos.urls')), # <--- É esta linha que conecta a nossa API!
+    path('api/', include('produtos.urls')),
+    path('api/', include('pedidos.urls')),
 ]
 
-# Configuração para servir arquivos de mídia em desenvolvimento
-if settings.DEBUG:
+if settings.DEBUG and not getattr(settings, 'USE_S3', False):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
